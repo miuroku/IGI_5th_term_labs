@@ -15,6 +15,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Folder Include="Areas\Default\Controllers\" />
+    <Folder Include="Areas\Default\Data\" />
+    <Folder Include="Areas\Default\Models\" />
+    <Folder Include="Areas\Default\Views\" />
+    <Folder Include="Areas\MenuItem\Controllers\" />
+    <Folder Include="Areas\MenuItem\Data\" />
+    <Folder Include="Areas\MenuItem\Models\" />
+    <Folder Include="Areas\MenuItem\Views\" />
+    <Folder Include="Areas\Menu\Controllers\" />
+    <Folder Include="Areas\Menu\Data\" />
+    <Folder Include="Areas\Menu\Models\" />
+    <Folder Include="Areas\Menu\Views\" />
     <Folder Include="wwwroot\images\" />
   </ItemGroup>
 
