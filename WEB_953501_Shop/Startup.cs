@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI;
@@ -7,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,6 +16,9 @@ using System.Threading.Tasks;
 
 using WEB_953501_Shop.Data;
 using WEB_953501_Shop.Entities;
+using WEB_953501_Shop.Extensions;
+using WEB_953501_Shop.Models;
+using WEB_953501_Shop.Services;
 
 namespace WEB_953501_Shop
 {
@@ -49,6 +54,10 @@ namespace WEB_953501_Shop
             })
             .AddEntityFrameworkStores<ApplicationDbContext>()
             .AddDefaultTokenProviders();
+
+            //services.AddMvc().AddSessionStateTempDataProvider();
+            services.AddSession();
+
             services.AddAuthorization();
             services.ConfigureApplicationCookie(options =>
             {
@@ -58,6 +67,17 @@ namespace WEB_953501_Shop
 
             //services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
             //    .AddEntityFrameworkStores<ApplicationDbContext>();            
+
+            services.AddDistributedMemoryCache();
+            services.AddSession(opt =>
+            {
+                opt.Cookie.HttpOnly = true;
+                opt.Cookie.IsEssential = true;
+            });
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            services.AddScoped<Cart>(sp => CartService.GetCart(sp));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -65,8 +85,12 @@ namespace WEB_953501_Shop
             IWebHostEnvironment env,
             ApplicationDbContext context,
             UserManager<ApplicationUser> userManager,
-            RoleManager<IdentityRole> roleManager)            
+            RoleManager<IdentityRole> roleManager,
+            ILoggerFactory logger)            
         {
+            logger.AddFile("Logs/log-{Date}.txt");
+            app.UseFileLogging();
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
@@ -84,6 +108,7 @@ namespace WEB_953501_Shop
             app.UseRouting();
 
             app.UseAuthentication();
+            app.UseSession();
             app.UseAuthorization();
 
             DbInitializer.Seed(context, userManager, roleManager).Wait();
