@@ -32,3 +32,6 @@
 2021-11-29T19:42:20.7627039+03:00  [INF] Request /Cart/Delete/1 returns status code 302 (12c74a1f)
 2021-11-29T19:42:20.7698427+03:00  [INF] Request /Cart returns status code 200 (5793191f)
 2021-11-29T19:42:20.8066119+03:00  [INF] Request /Image/GetAvatar returns status code 200 (dd72c7d0)
+2021-11-29T20:13:52.9804180+03:00  [INF] Application started. Press Ctrl+C to shut down. (dcaefe54)
+2021-11-29T20:13:53.0395284+03:00  [INF] Hosting environment: "Development" (c3307c92)
+2021-11-29T20:13:53.0402349+03:00  [INF] Content root path: "C:\Users\supay\Desktop\University\5_term\IGI\WEB_953501_Shop\WEB_953501_Shop" (b5d60022)
